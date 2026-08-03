@@ -12,10 +12,62 @@ const MAX_SEATS         = 100;
 const STORAGE_BUCKET    = 'payment-screenshots';
 
 let db;
-try {
-  db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-} catch (e) {
-  console.error('Supabase init failed:', e);
+let supabaseInitPromise = null;
+
+async function loadAwsClubConfig() {
+  if (typeof window.loadAwsClubConfig === 'function') {
+    return window.loadAwsClubConfig();
+  }
+
+  if (!loadAwsClubConfig.promise) {
+    loadAwsClubConfig.promise = fetch('/api/config', { cache: 'no-store' })
+      .then(async response => {
+        if (!response.ok) {
+          throw new Error(`Config request failed (${response.status})`);
+        }
+
+        return response.json();
+      })
+      .catch(error => {
+        console.warn('Config endpoint unavailable, falling back to defaults.', error);
+        return {
+          WEB3FORMS_ACCESS_KEY: '',
+          SUPABASE_URL: '',
+          SUPABASE_ANON_KEY: '',
+          MAX_SEATS: String(DEFAULT_MAX_SEATS),
+          STORAGE_BUCKET: DEFAULT_STORAGE_BUCKET,
+        };
+      });
+  }
+
+  return loadAwsClubConfig.promise;
+}
+
+async function ensureSupabase() {
+  if (db) return db;
+
+  if (!supabaseInitPromise) {
+    supabaseInitPromise = (async () => {
+      const config = await loadAwsClubConfig();
+      const supabaseUrl = (config.SUPABASE_URL || '').trim();
+      const supabaseAnonKey = (config.SUPABASE_ANON_KEY || '').trim();
+
+      maxSeats = Number(config.MAX_SEATS || DEFAULT_MAX_SEATS) || DEFAULT_MAX_SEATS;
+      storageBucket = (config.STORAGE_BUCKET || DEFAULT_STORAGE_BUCKET).trim() || DEFAULT_STORAGE_BUCKET;
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        throw new Error('Supabase config is not set');
+      }
+
+      db = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+      return db;
+    })().catch(error => {
+      supabaseInitPromise = null;
+      throw error;
+    });
+  }
+
+  return supabaseInitPromise;
 }
 
 
@@ -23,8 +75,10 @@ try {
 let currentCount = 0;
 
 async function fetchSeatCount() {
-  if (!db) return;
   try {
+    const client = await ensureSupabase();
+    if (!client) return;
+
     const { count, error } = await db
       .from('registrations')
       .select('*', { count: 'exact', head: true })
@@ -40,8 +94,9 @@ async function fetchSeatCount() {
 }
 
 function renderSeatUI(filled) {
-  const remaining = Math.max(0, MAX_SEATS - filled);
-  const pct       = Math.min((filled / MAX_SEATS) * 100, 100);
+  const capacity  = Math.max(1, maxSeats);
+  const remaining = Math.max(0, capacity - filled);
+  const pct       = Math.min((filled / capacity) * 100, 100);
 
   const elFilled    = document.getElementById('seatFilled');
   const elRemaining = document.getElementById('seatRemaining');
@@ -287,8 +342,12 @@ document.getElementById('btnSubmit')?.addEventListener('click', async () => {
   if (!utr || utr.length < 6) {
     showToast('⚠ PLEASE ENTER YOUR UTR / TRANSACTION ID!', 'error'); return;
   }
-  if (!db) {
-    showToast('⚠ CONNECTION ERROR — PLEASE RELOAD THE PAGE!', 'error'); return;
+  try {
+    await ensureSupabase();
+  } catch (err) {
+    console.error('Supabase init failed:', err);
+    showToast('⚠ CONNECTION ERROR — PLEASE RELOAD THE PAGE!', 'error');
+    return;
   }
 
   setSubmitLoading(submitBtn, true, '⏳ UPLOADING SCREENSHOT...');
@@ -299,7 +358,7 @@ document.getElementById('btnSubmit')?.addEventListener('click', async () => {
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}.${ext}`;
 
     const { data: uploadData, error: uploadError } = await db.storage
-      .from(STORAGE_BUCKET)
+      .from(storageBucket)
       .upload(fileName, uploadedFile, {
         contentType: uploadedFile.type,
         cacheControl: '3600',
@@ -339,7 +398,7 @@ document.getElementById('btnSubmit')?.addEventListener('click', async () => {
     if (insertError) {
       if (insertError.message?.includes('EVENT_FULL') || insertError.message?.includes('full')) {
         triggerSeatsFull();
-        throw new Error('SORRY! All 100 seats are now taken. Registration closed.');
+        throw new Error(`SORRY! All ${maxSeats} seats are now taken. Registration closed.`);
       }
       if (insertError.code === '23505') {
         throw new Error('This email has already been registered!');
@@ -365,7 +424,20 @@ document.getElementById('btnSubmit')?.addEventListener('click', async () => {
 document.getElementById('btnBackTo2')?.addEventListener('click', () => goToStep(2));
 
 
-/* ── 9. HELPERS ────────────────────────────────────────────── */
+/* ── 10. BOOTSTRAP ─────────────────────────────────────────── */
+(async function bootstrapRegistration() {
+  try {
+    await ensureSupabase();
+    fetchSeatCount();
+    initRealtime();
+    setInterval(fetchSeatCount, 30_000);
+  } catch (error) {
+    console.warn('Registration config unavailable:', error);
+  }
+})();
+
+
+/* ── 11. HELPERS ───────────────────────────────────────────── */
 
 function setSubmitLoading(btn, loading, label) {
   if (!btn) return;

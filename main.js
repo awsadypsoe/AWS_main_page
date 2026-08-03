@@ -3,6 +3,40 @@
    ============================================================ */
 'use strict';
 
+const AWS_CLUB_CONFIG_ENDPOINT = '/api/config';
+const AWS_CLUB_DEFAULT_CONFIG = Object.freeze({
+  WEB3FORMS_ACCESS_KEY: '',
+  SUPABASE_URL: '',
+  SUPABASE_ANON_KEY: '',
+  MAX_SEATS: '100',
+  STORAGE_BUCKET: 'payment-screenshots',
+});
+
+let awsClubConfigPromise = null;
+
+function loadAwsClubConfig() {
+  if (!awsClubConfigPromise) {
+    awsClubConfigPromise = fetch(AWS_CLUB_CONFIG_ENDPOINT, { cache: 'no-store' })
+      .then(async response => {
+        if (!response.ok) {
+          throw new Error(`Config request failed (${response.status})`);
+        }
+
+        const config = await response.json();
+        return { ...AWS_CLUB_DEFAULT_CONFIG, ...config };
+      })
+      .catch(error => {
+        console.warn('Config endpoint unavailable, falling back to defaults.', error);
+        return { ...AWS_CLUB_DEFAULT_CONFIG };
+      });
+  }
+
+  return awsClubConfigPromise;
+}
+
+window.loadAwsClubConfig = loadAwsClubConfig;
+window.awsClubConfigPromise = loadAwsClubConfig();
+
 /* ============================================================
    1. STARFIELD CANVAS
    ============================================================ */
@@ -247,17 +281,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     submitBtn.textContent = '⏳ SENDING...';
     submitBtn.disabled = true;
 
-    // --- FORM STORAGE SETUP ---
-    // To store your form inputs, we are using Web3Forms (free & easy for static sites).
-    // 1. Go to https://web3forms.com/ and enter your email.
-    // 2. You will receive an Access Key in your email.
-    // 3. Replace 'YOUR_ACCESS_KEY_HERE' below with that key.
-    const WEB3FORMS_ACCESS_KEY = 'a346603f-0320-4efb-b0ea-928f52e8cb6e';
-
-    const formData = new FormData(form);
-    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
-
     try {
+      const config = await loadAwsClubConfig();
+      const web3FormsAccessKey = config.WEB3FORMS_ACCESS_KEY.trim();
+
+      if (!web3FormsAccessKey) {
+        throw new Error('Web3Forms access key is not configured');
+      }
+
+      const formData = new FormData(form);
+      formData.append('access_key', web3FormsAccessKey);
+
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: formData
