@@ -6,17 +6,17 @@
 'use strict';
 
 /* ── 1. SUPABASE CONFIG ────────────────────────────────────── */
-const SUPABASE_URL      = 'https://npbebikggnkkkuxrgqki.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYmViaWtnZ25ra2t1eHJncWtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2NjEzOTcsImV4cCI6MjEwMTIzNzM5N30.aJkmZXAdlbJiLUl_K4-ktwFD9V-o7XKvguuzWwv0PsI';
-const MAX_SEATS         = 100;
-const STORAGE_BUCKET    = 'payment-screenshots';
+const DEFAULT_MAX_SEATS = 100;
+const DEFAULT_STORAGE_BUCKET = 'payment-screenshots';
 
 let db;
 let supabaseInitPromise = null;
+let maxSeats = DEFAULT_MAX_SEATS;
+let storageBucket = DEFAULT_STORAGE_BUCKET;
 
 async function loadAwsClubConfig() {
-  if (typeof window.loadAwsClubConfig === 'function') {
-    return window.loadAwsClubConfig();
+  if (window.awsClubConfigPromise) {
+    return window.awsClubConfigPromise;
   }
 
   if (!loadAwsClubConfig.promise) {
@@ -168,14 +168,6 @@ function initRealtime() {
       }
     });
 }
-
-/* ── Polling fallback: every 30 seconds ── */
-setInterval(fetchSeatCount, 30_000);
-
-/* ── Initial load ── */
-fetchSeatCount();
-initRealtime();
-
 
 /* ── 3. STEP NAVIGATION ────────────────────────────────────── */
 let currentStep  = 1;
