@@ -359,7 +359,7 @@ document.getElementById('btnSubmit')?.addEventListener('click', async () => {
 
     if (uploadError) throw new Error('Screenshot upload failed — please try again.');
 
-    const { data: urlData } = db.storage.from(STORAGE_BUCKET).getPublicUrl(uploadData.path);
+    const { data: urlData } = db.storage.from(storageBucket).getPublicUrl(uploadData.path);
     const screenshotUrl = urlData?.publicUrl || '';
 
     /* ── 8b. Insert registration row ── */
