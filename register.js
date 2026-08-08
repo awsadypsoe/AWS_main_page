@@ -102,17 +102,23 @@ function renderSeatUI(filled) {
   const elRemaining = document.getElementById('seatRemaining');
   const elBar       = document.getElementById('seatBar');
   const elWrap      = document.getElementById('seatCounterWrap');
+  const elLiveBadge = document.getElementById('seatLiveBadge');
 
-  if (elFilled)    elFilled.textContent    = filled;
-  if (elRemaining) elRemaining.textContent = remaining + ' left';
-  if (elBar)       elBar.style.width       = pct + '%';
+  if (elFilled)    elFilled.textContent    = 'CLOSED';
+  if (elRemaining) elRemaining.textContent = 'Registration closed';
+  if (elBar)       elBar.style.width       = '0%';
 
-  /* Urgent pulse when ≤ 15 seats remain */
   if (elWrap) {
-    elWrap.classList.toggle('urgent', remaining <= 15 && remaining > 0);
+    elWrap.classList.remove('urgent');
+    elWrap.classList.add('closed');
+    elWrap.setAttribute('aria-hidden', 'true');
   }
 
-  /* Trigger full state */
+  if (elLiveBadge) {
+    elLiveBadge.style.display = 'none';
+    elLiveBadge.innerHTML = '<div class="seat-live-dot"></div>CLOSED';
+  }
+
   if (remaining <= 0) triggerSeatsFull();
 }
 
@@ -420,6 +426,22 @@ document.getElementById('btnBackTo2')?.addEventListener('click', () => goToStep(
 function applyRegistrationClosedState() {
   const closedState = document.getElementById('registrationClosedState');
   if (closedState) closedState.style.display = 'block';
+
+  const counterWrap = document.getElementById('seatCounterWrap');
+  const liveBadge = document.getElementById('seatLiveBadge');
+  const remainingEl = document.getElementById('seatRemaining');
+
+  if (counterWrap) {
+    counterWrap.classList.add('closed');
+    counterWrap.setAttribute('aria-hidden', 'true');
+  }
+  if (liveBadge) {
+    liveBadge.style.display = 'none';
+    liveBadge.innerHTML = '<div class="seat-live-dot"></div>CLOSED';
+  }
+  if (remainingEl) {
+    remainingEl.textContent = 'Please contact us on WhatsApp for updates.';
+  }
 
   document.querySelectorAll('.step-indicator, .step-labels-row, .form-steps-wrap').forEach(el => {
     if (el) el.style.display = 'none';

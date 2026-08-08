@@ -156,25 +156,19 @@
             100 SEATS</span>
         </div>
 
-        <div class="seat-counter-wrap" id="seatCounterWrap">
+        <div class="seat-counter-wrap seat-counter-closed" id="seatCounterWrap" role="status" aria-live="polite">
           <div class="seat-counter-top">
             <div style="display:flex;align-items:center;gap:.6rem;">
               <div style="font-family:var(--px);font-size:.4rem;color:var(--muted);">REGISTRATIONS</div>
-              <div class="seat-live-badge" id="seatLiveBadge">
-                <div class="seat-live-dot"></div>LIVE
+              <div class="seat-live-badge" id="seatLiveBadge" style="display:none;">
+                <div class="seat-live-dot"></div>CLOSED
               </div>
             </div>
-            <div>
-              <span class="seat-count-num" id="seatFilled">&#x2014;</span>
-              <span class="seat-count-label"> / 100 filled</span>
-            </div>
-          </div>
-          <div class="seat-bar-wrap">
-            <div class="seat-bar" id="seatBar"></div>
+            <div style="color:var(--pink);font-family:var(--px);font-size:.45rem;">CLOSED</div>
           </div>
           <div class="seat-counter-bottom">
-            <div class="seat-bottom-label">SPOTS REMAINING</div>
-            <div class="seat-remaining" id="seatRemaining">&#x2014;</div>
+            <div class="seat-bottom-label">NO NEW REGISTRATIONS</div>
+            <div class="seat-remaining" id="seatRemaining">Please contact us on WhatsApp for updates.</div>
           </div>
         </div>
 
