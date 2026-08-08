@@ -67,7 +67,7 @@
         <li><a href="index.html#events" class="nav-link">EVENTS</a></li>
         <li><a href="index.html#team" class="nav-link">TEAM</a></li>
         <li><a href="index.html#community" class="nav-link">COMMUNITY</a></li>
-        <li><a href="#register" class="btn btn-primary nav-cta">REGISTER</a></li>
+        <li><a href="https://chat.whatsapp.com/Dp1pWeZUSmqLecTTHAdHNp" target="_blank" rel="noopener" class="btn btn-primary nav-cta">CONTACT</a></li>
       </ul>
     </div>
   </nav>
@@ -179,12 +179,12 @@
         </div>
 
         <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
-          <a href="#register" class="btn btn-primary btn-lg" id="heroRegBtn">
+          <a href="https://chat.whatsapp.com/Dp1pWeZUSmqLecTTHAdHNp" target="_blank" rel="noopener" class="btn btn-primary btn-lg" id="heroRegBtn">
             <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
               <rect x="3" y="0" width="2" height="4" />
               <rect x="0" y="3" width="8" height="2" />
             </svg>
-            REGISTER NOW &mdash; <span class="rupee-sign">₹</span>89
+            REGISTRATION CLOSED &mdash; CONTACT
           </a>
           <a href="index.html#events" class="btn btn-outline">
             <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
@@ -203,12 +203,20 @@
     <div class="join-bg-effect"></div>
     <div class="section-container" style="position:relative;z-index:1;">
 
-      <div class="section-eyebrow pixel-text center">// ENROLL NOW</div>
-      <h2 class="section-title center">SECURE YOUR<br /><span class="accent-pink">SPOT TODAY.</span></h2>
-      <p class="section-subtitle center">Register below &mdash; pay <span class="rupee-sign" style="font-size:1.05rem;">₹</span>89 via UPI, upload your proof, and you're in.</p>
+      <div class="section-eyebrow pixel-text center">// REGISTRATIONS</div>
+      <h2 class="section-title center">REGISTRATION<br /><span class="accent-pink">CLOSED.</span></h2>
+      <p class="section-subtitle center">Registrations for this session are now closed. Please use the WhatsApp button below for updates and future events.</p>
+
+      <div class="join-form pixel-card" id="registrationClosedState" style="padding:2rem;margin-bottom:1.5rem;text-align:center;">
+        <div class="step-heading">REGISTRATION CLOSED</div>
+        <p class="step-subtext" style="margin-top:.6rem;">We are no longer accepting registrations for this session.</p>
+        <a href="https://chat.whatsapp.com/Dp1pWeZUSmqLecTTHAdHNp" target="_blank" rel="noopener" class="btn btn-primary btn-lg" style="margin-top:1rem;">
+          CONTACT ON WHATSAPP
+        </a>
+      </div>
 
       <!-- Seats Full Banner -->
-      <div class="seats-full-banner" id="seatsBanner" role="alert">
+      <div class="seats-full-banner" id="seatsBanner" role="alert" style="display:none;">
         <div class="seats-full-title">&#x26A0; ALL SEATS FILLED!</div>
         <p style="color:var(--muted);font-size:.95rem;margin-top:.3rem;">All 100 seats have been taken. Follow our
           <a href="https://www.instagram.com/aws.adypsoe/" target="_blank" rel="noopener"
@@ -217,14 +225,14 @@
       </div>
 
       <!-- STEP INDICATOR -->
-      <div class="step-indicator" id="stepIndicator" aria-label="Registration steps">
+      <div class="step-indicator" id="stepIndicator" aria-label="Registration steps" style="display:none;">
         <div class="step-dot active" id="dot1" aria-label="Step 1: Your Details">1</div>
         <div class="step-connector" id="conn1"></div>
         <div class="step-dot" id="dot2" aria-label="Step 2: Pay ₹89">2</div>
         <div class="step-connector" id="conn2"></div>
         <div class="step-dot" id="dot3" aria-label="Step 3: Upload Proof">3</div>
       </div>
-      <div class="step-labels-row" aria-hidden="true">
+      <div class="step-labels-row" aria-hidden="true" style="display:none;">
         <div class="step-lbl-group">
           <div class="step-lbl active" id="lbl1">YOUR<br />DETAILS</div>
         </div>
@@ -239,7 +247,7 @@
       </div>
 
       <!-- FORM STEPS -->
-      <div class="form-steps-wrap">
+      <div class="form-steps-wrap" style="display:none;">
 
         <!-- ─── STEP 1: YOUR DETAILS ─────────────────────── -->
         <div class="step-content active" id="step1">

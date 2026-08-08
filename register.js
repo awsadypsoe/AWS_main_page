@@ -417,8 +417,22 @@ document.getElementById('btnBackTo2')?.addEventListener('click', () => goToStep(
 
 
 /* ── 10. BOOTSTRAP ─────────────────────────────────────────── */
+function applyRegistrationClosedState() {
+  const closedState = document.getElementById('registrationClosedState');
+  if (closedState) closedState.style.display = 'block';
+
+  document.querySelectorAll('.step-indicator, .step-labels-row, .form-steps-wrap').forEach(el => {
+    if (el) el.style.display = 'none';
+  });
+
+  document.querySelectorAll('#step1 input, #step1 select, #btnStep1, #btnStep2, #btnStep3, #btnSubmit, #copyUpiBtn, #uploadZone, #screenshotInput').forEach(el => {
+    if (el) el.disabled = true;
+  });
+}
+
 (async function bootstrapRegistration() {
   try {
+    applyRegistrationClosedState();
     await ensureSupabase();
     fetchSeatCount();
     initRealtime();
