@@ -104,19 +104,19 @@ function renderSeatUI(filled) {
   const elWrap      = document.getElementById('seatCounterWrap');
   const elLiveBadge = document.getElementById('seatLiveBadge');
 
-  if (elFilled)    elFilled.textContent    = 'CLOSED';
-  if (elRemaining) elRemaining.textContent = 'Registration closed';
-  if (elBar)       elBar.style.width       = '0%';
+  if (elFilled)    elFilled.textContent    = filled + ' / ' + capacity;
+  if (elRemaining) elRemaining.textContent = remaining + ' seat' + (remaining === 1 ? '' : 's') + ' remaining';
+  if (elBar)       elBar.style.width       = pct + '%';
 
   if (elWrap) {
-    elWrap.classList.remove('urgent');
-    elWrap.classList.add('closed');
-    elWrap.setAttribute('aria-hidden', 'true');
+    elWrap.classList.remove('seat-counter-closed', 'closed', 'urgent');
+    if (remaining <= 10) elWrap.classList.add('urgent');
+    elWrap.removeAttribute('aria-hidden');
   }
 
   if (elLiveBadge) {
-    elLiveBadge.style.display = 'none';
-    elLiveBadge.innerHTML = '<div class="seat-live-dot"></div>CLOSED';
+    elLiveBadge.style.display = 'inline-flex';
+    elLiveBadge.innerHTML = '<div class="seat-live-dot"></div>LIVE';
   }
 
   if (remaining <= 0) triggerSeatsFull();
@@ -453,8 +453,34 @@ function applyRegistrationClosedState() {
 }
 
 (async function bootstrapRegistration() {
+  /* Show the registration form — registrations are OPEN */
+  const closedBanner = document.getElementById('registrationClosedState');
+  if (closedBanner) closedBanner.style.display = 'none';
+
+  const stepIndicator = document.getElementById('stepIndicator');
+  const stepLabels    = document.querySelector('.step-labels-row');
+  const formWrap      = document.querySelector('.form-steps-wrap');
+  if (stepIndicator) stepIndicator.style.display = '';
+  if (stepLabels)    stepLabels.style.display    = '';
+  if (formWrap)      formWrap.style.display      = '';
+
+  /* Reset hero button to register link */
+  const heroBtn = document.getElementById('heroRegBtn');
+  if (heroBtn) {
+    heroBtn.href = '#register';
+    heroBtn.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
+        <rect x="3" y="0" width="2" height="4" />
+        <rect x="0" y="3" width="8" height="2" />
+      </svg>
+      REGISTER NOW — ₹149`;
+    heroBtn.classList.remove('btn-outline');
+    heroBtn.classList.add('btn-primary');
+    heroBtn.style.pointerEvents = '';
+    heroBtn.style.opacity = '';
+  }
+
   try {
-    applyRegistrationClosedState();
     await ensureSupabase();
     fetchSeatCount();
     initRealtime();

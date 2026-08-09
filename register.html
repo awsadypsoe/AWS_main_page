@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Register — Hands-on Expert Session | AWS Students Builder Group ADYPSOE</title>
   <meta name="description"
-    content="Register for the Hands-on Expert Session by Ms. Afreen Bano — August 10, 2026 at ADYPSOE, Lohegaon. Limited to 100 students. ₹89 registration fee with live quiz and AWS goodies." />
+    content="Register for the Hands-on Expert Session by Ms. Afreen Bano — August 10, 2026 at ADYPSOE, Lohegaon. Limited to 100 students. ₹149 registration fee with live quiz and AWS goodies." />
   <meta property="og:title" content="Hands-on Expert Session — AWS SBG ADYPSOE" />
-  <meta property="og:description" content="Register now. Limited to 100 seats. ₹89 fee." />
+  <meta property="og:description" content="Register now. Last 10 spots left. ₹149 fee." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;600;700&display=swap"
@@ -37,7 +37,7 @@
       <span class="ticker-sep">///</span>
       <span class="ticker-item">&#x1F381; SURPRISE GIFTS FOR ALL PARTICIPANTS</span>
       <span class="ticker-sep">///</span>
-      <span class="ticker-item">&#x1F4B0; <span class="rupee-sign">₹</span>89 PER PARTICIPANT &middot; <span class="accent-pink">LIMITED TO 100 SEATS</span></span>
+      <span class="ticker-item">&#x1F4B0; <span class="rupee-sign">₹</span>149 PER PARTICIPANT &middot; <span class="accent-pink">LAST 10 SPOTS!</span></span>
       <span class="ticker-sep">///</span>
       <span class="ticker-item">&#x1F3AB; HANDS-ON EXPERT SESSION &mdash; AUG 10, 2026</span>
       <span class="ticker-sep">///</span>
@@ -47,7 +47,7 @@
       <span class="ticker-sep">///</span>
       <span class="ticker-item">&#x1F381; SURPRISE GIFTS FOR ALL PARTICIPANTS</span>
       <span class="ticker-sep">///</span>
-      <span class="ticker-item">&#x1F4B0; <span class="rupee-sign">₹</span>89 PER PARTICIPANT &middot; <span class="accent-pink">LIMITED TO 100 SEATS</span></span>
+      <span class="ticker-item">&#x1F4B0; <span class="rupee-sign">₹</span>149 PER PARTICIPANT &middot; <span class="accent-pink">LAST 10 SPOTS!</span></span>
     </div>
   </div>
 
@@ -150,35 +150,38 @@
         <!-- Fee + Seat Counter -->
         <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
           <div class="fee-badge">
-            <span class="rupee-sign" style="font-size:1rem;">₹</span>89 PER PARTICIPANT
+            <span class="rupee-sign" style="font-size:1rem;">₹</span>149 PER PARTICIPANT
           </div>
           <span class="event-type-chip pixel-text" style="border:1px solid rgba(255,45,120,.4);color:var(--pink);">MAX
             100 SEATS</span>
+          <span class="event-type-chip pixel-text" style="border:1px solid rgba(255,153,0,.6);color:var(--orange);animation:urgency-pulse 1.2s ease-in-out infinite;">
+            &#x1F525; LAST 10 SPOTS
+          </span>
         </div>
 
-        <div class="seat-counter-wrap seat-counter-closed" id="seatCounterWrap" role="status" aria-live="polite">
+        <div class="seat-counter-wrap" id="seatCounterWrap" role="status" aria-live="polite">
           <div class="seat-counter-top">
             <div style="display:flex;align-items:center;gap:.6rem;">
               <div style="font-family:var(--px);font-size:.4rem;color:var(--muted);">REGISTRATIONS</div>
               <div class="seat-live-badge" id="seatLiveBadge" style="display:none;">
-                <div class="seat-live-dot"></div>CLOSED
+                <div class="seat-live-dot"></div>LIVE
               </div>
             </div>
-            <div style="color:var(--pink);font-family:var(--px);font-size:.45rem;">CLOSED</div>
+            <div style="color:var(--orange);font-family:var(--px);font-size:.45rem;" id="seatFilled">LOADING...</div>
           </div>
           <div class="seat-counter-bottom">
-            <div class="seat-bottom-label">NO NEW REGISTRATIONS</div>
-            <div class="seat-remaining" id="seatRemaining">Please contact us on WhatsApp.</div>
+            <div class="seat-bottom-label">SPOTS LEFT</div>
+            <div class="seat-remaining" id="seatRemaining">Fetching availability...</div>
           </div>
         </div>
 
         <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
-          <a href="https://chat.whatsapp.com/Dp1pWeZUSmqLecTTHAdHNp" target="_blank" rel="noopener" class="btn btn-primary btn-lg" id="heroRegBtn">
+          <a href="#register" class="btn btn-primary btn-lg" id="heroRegBtn">
             <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
               <rect x="3" y="0" width="2" height="4" />
               <rect x="0" y="3" width="8" height="2" />
             </svg>
-            REGISTRATION CLOSED &mdash; CONTACT
+            REGISTER NOW &mdash; &#x20B9;149
           </a>
           <a href="index.html#events" class="btn btn-outline">
             <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
@@ -198,8 +201,8 @@
     <div class="section-container" style="position:relative;z-index:1;">
 
       <div class="section-eyebrow pixel-text center">// REGISTRATIONS</div>
-      <h2 class="section-title center">REGISTRATION<br /><span class="accent-pink">CLOSED.</span></h2>
-      <p class="section-subtitle center">Registrations for this session are now closed. Please use the WhatsApp button below for updates and future events.</p>
+      <h2 class="section-title center">SECURE YOUR<br /><span class="accent-pink">SPOT NOW.</span></h2>
+      <p class="section-subtitle center">Only <strong style="color:var(--orange)">10 spots</strong> remaining. Complete the 3-step registration below to reserve your seat.</p>
 
       <div class="join-form pixel-card" id="registrationClosedState" style="padding:2rem;margin-bottom:1.5rem;text-align:center;">
         <div class="step-heading">REGISTRATION CLOSED</div>
@@ -222,7 +225,7 @@
       <div class="step-indicator" id="stepIndicator" aria-label="Registration steps" style="display:none;">
         <div class="step-dot active" id="dot1" aria-label="Step 1: Your Details">1</div>
         <div class="step-connector" id="conn1"></div>
-        <div class="step-dot" id="dot2" aria-label="Step 2: Pay ₹89">2</div>
+        <div class="step-dot" id="dot2" aria-label="Step 2: Pay ₹149">2</div>
         <div class="step-connector" id="conn2"></div>
         <div class="step-dot" id="dot3" aria-label="Step 3: Upload Proof">3</div>
       </div>
@@ -232,7 +235,7 @@
         </div>
         <div class="step-lbl-spacer"></div>
         <div class="step-lbl-group">
-          <div class="step-lbl" id="lbl2">PAY<br /><span class="rupee-sign">₹</span>89</div>
+          <div class="step-lbl" id="lbl2">PAY<br /><span class="rupee-sign">₹</span>149</div>
         </div>
         <div class="step-lbl-spacer"></div>
         <div class="step-lbl-group">
@@ -302,7 +305,7 @@
             </div>
 
             <button type="button" class="btn btn-primary btn-lg btn-full" id="btnStep1">
-              NEXT: PAY <span class="rupee-sign">₹</span>89
+              NEXT: PAY <span class="rupee-sign">₹</span>149
               <svg width="12" height="12" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
                 <polygon points="2,0 7,4 2,8" />
               </svg>
@@ -313,10 +316,10 @@
         <!-- ─── STEP 2: PAYMENT ───────────────────────────── -->
         <div class="step-content" id="step2">
           <div class="payment-qr-block pixel-card">
-            <div class="step-heading">STEP 2 OF 3 &mdash; PAY <span class="rupee-sign">₹</span>89 VIA UPI</div>
+            <div class="step-heading">STEP 2 OF 3 &mdash; PAY <span class="rupee-sign">₹</span>149 VIA UPI</div>
 
             <div class="qr-img-wrap">
-              <img src="assets/upi_qr.png" alt="UPI QR Code — Pay ₹89 to AWS SBG ADYPSOE" class="qr-img"
+              <img src="assets/upi_qr.png" alt="UPI QR Code — Pay ₹149 to AWS SBG ADYPSOE" class="qr-img"
                 id="qrCodeImg" />
               <div class="qr-amount-badge">SCAN ME</div>
             </div>
@@ -324,7 +327,7 @@
             <ul class="payment-instructions">
               <li>Open any UPI app &mdash; PhonePe, Google Pay, Paytm, or BHIM</li>
               <li>Scan the QR code above</li>
-              <li>Pay exactly <strong><span class="rupee-sign">₹</span>89</strong> &mdash; write "AWS SBG Registration" in the note</li>
+              <li>Pay exactly <strong><span class="rupee-sign">₹</span>149</strong> &mdash; write "AWS SBG Registration" in the note</li>
               <li>Note the <strong>UTR&nbsp;/&nbsp;Transaction&nbsp;ID</strong> from your payment app</li>
               <li>Take a <strong>screenshot</strong> of the success screen — you'll upload it next</li>
             </ul>
