@@ -453,33 +453,22 @@ function applyRegistrationClosedState() {
 }
 
 (async function bootstrapRegistration() {
-  /* Show the registration form — registrations are OPEN */
-  const closedBanner = document.getElementById('registrationClosedState');
-  if (closedBanner) closedBanner.style.display = 'none';
+  /* ── REGISTRATIONS CLOSED — all seats taken ── */
+  applyRegistrationClosedState();
 
-  const stepIndicator = document.getElementById('stepIndicator');
-  const stepLabels    = document.querySelector('.step-labels-row');
-  const formWrap      = document.querySelector('.form-steps-wrap');
-  if (stepIndicator) stepIndicator.style.display = '';
-  if (stepLabels)    stepLabels.style.display    = '';
-  if (formWrap)      formWrap.style.display      = '';
-
-  /* Reset hero button to register link */
+  /* Update hero button to reflect closed state */
   const heroBtn = document.getElementById('heroRegBtn');
   if (heroBtn) {
-    heroBtn.href = '#register';
-    heroBtn.innerHTML = `
-      <svg width="14" height="14" viewBox="0 0 8 8" fill="currentColor" aria-hidden="true">
-        <rect x="3" y="0" width="2" height="4" />
-        <rect x="0" y="3" width="8" height="2" />
-      </svg>
-      REGISTER NOW — ₹149`;
-    heroBtn.classList.remove('btn-outline');
-    heroBtn.classList.add('btn-primary');
+    heroBtn.textContent   = '— ALL SEATS TAKEN —';
+    heroBtn.href          = 'https://chat.whatsapp.com/Dp1pWeZUSmqLecTTHAdHNp';
+    heroBtn.target        = '_blank';
+    heroBtn.rel           = 'noopener';
+    heroBtn.classList.replace('btn-primary', 'btn-outline');
     heroBtn.style.pointerEvents = '';
-    heroBtn.style.opacity = '';
+    heroBtn.style.opacity       = '';
   }
 
+  /* Still fetch seat count so the counter shows real data */
   try {
     await ensureSupabase();
     fetchSeatCount();
